@@ -15,13 +15,17 @@ type CreateProjectInput struct {
 	Name string
 }
 
+type CreateProjectOutput struct {
+	ProjectID string `json:"project_id"`
+}
+
 func NewCreateProject(projectRepository domain.ProjectRepository) *CreateProject {
 	return &CreateProject{
 		ProjectRepository: projectRepository,
 	}
 }
 
-func (c *CreateProject) Execute(input CreateProjectInput) error {
+func (c *CreateProject) Execute(input CreateProjectInput) (*CreateProjectOutput, error) {
 	today := time.Now()
 	project, err := domain.NewProject(
 		uuid.NewString(),
@@ -30,11 +34,14 @@ func (c *CreateProject) Execute(input CreateProjectInput) error {
 		today,
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	err = c.ProjectRepository.Save(project)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	output := &CreateProjectOutput{
+		ProjectID: project.ID,
+	}
+	return output, nil
 }
