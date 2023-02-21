@@ -10,13 +10,12 @@ import (
 func TestShouldCreateProject(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	createProject := NewCreateProject(projectRepository)
-	input := &CreateProjectInput{
+	input := CreateProjectInput{
 		Name: "Untitled Project",
 	}
-	err := createProject.Execute(*input)
+	output, err := createProject.Execute(input)
 	assert.NoError(t, err)
-	projects, err := projectRepository.FindAll()
+	project, _ := projectRepository.Find(output.ProjectID)
 	assert.NoError(t, err)
-	assert.Len(t, projects, 1)
-	assert.Equal(t, "Untitled Project", projects[0].Name)
+	assert.Equal(t, "Untitled Project", project.Name)
 }
