@@ -20,3 +20,12 @@ func (r *ProjectRepositoryMemory) Save(project *domain.Project) error {
 func (r *ProjectRepositoryMemory) FindAll() ([]*domain.Project, error) {
 	return r.Projects, nil
 }
+
+func (r *ProjectRepositoryMemory) Find(projectID string) (*domain.Project, error) {
+	for _, project := range r.Projects {
+        if project.ID == projectID {
+            return project, nil
+        }
+    }
+    return nil, nil
+}
