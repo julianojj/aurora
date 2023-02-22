@@ -36,7 +36,6 @@ func TestNotShouldCreateArtboardIfEmptyName(t *testing.T) {
 	assert.Nil(t, artboard)
 }
 
-
 func TestShouldCreateArtboard(t *testing.T) {
 	size := &Size{
 		Width:  100,
