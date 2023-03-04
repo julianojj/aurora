@@ -1,20 +1,28 @@
 package domain
 
-import "github.com/julianojj/aurora/internal/core/exceptions"
+import (
+	"io"
+
+	"github.com/julianojj/aurora/internal/core/exceptions"
+)
 
 type File struct {
 	FileID   string
 	Name     string
 	FileType string
+	Size     int64
+	Reader   io.Reader
 	Path     string
 }
 
-func NewFile(fileID, name, fileType, path string) (*File, error) {
+func NewFile(fileID, name, fileType, path string, size int64, reader io.Reader) (*File, error) {
 	file := &File{
 		FileID:   fileID,
 		Name:     name,
 		FileType: fileType,
 		Path:     path,
+		Size:     size,
+		Reader:   reader,
 	}
 	err := file.Validate()
 	if err != nil {
@@ -35,6 +43,12 @@ func (f *File) Validate() error {
 	}
 	if f.IsInvalidType() {
 		return exceptions.NewValidationException("File type not supported")
+	}
+	if f.Size <= 0 {
+		return exceptions.NewNotFoundException("File size must be greater than 0")
+	}
+	if f.Reader == nil {
+		return exceptions.NewNotFoundException("File reader cannot be empty")
 	}
 	if f.Path == "" {
 		return exceptions.NewValidationException("Path cannot be empty")
