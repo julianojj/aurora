@@ -36,6 +36,8 @@ func (u *UploadFile) Execute(input UploadFileInput) error {
 		input.Name,
 		input.Mimetype,
 		fmt.Sprintf("%s/%s", bucketName, newName),
+		input.Size,
+		input.Reader,
 	)
 	if err != nil {
 		return err
