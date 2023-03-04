@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestShouldCreateDesign(t *testing.T) {
+func TestShouldCreateArtboard(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 	createProject := NewCreateProject(projectRepository)
