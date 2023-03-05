@@ -52,10 +52,9 @@ func (m *Minio) CreateBucket() error {
 }
 
 func (m *Minio) PutObject(file *domain.File) error {
-	info, err := m.client.PutObject(m.ctx, m.bucketName, file.Name, file.Reader, file.Size, minio.PutObjectOptions{})
+	_, err := m.client.PutObject(m.ctx, m.bucketName, file.Name, file.Reader, file.Size, minio.PutObjectOptions{})
 	if err != nil {
 		return err
 	}
-	fmt.Println(info)
 	return nil
 }
