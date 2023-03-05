@@ -3,13 +3,19 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/julianojj/aurora/internal/core/usecases"
+	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/repository"
 )
 
 func main() {
 	r := gin.Default()
 	fileRepository := repository.NewFileRepositoryMemory()
-	uploadFile := usecases.NewUploadFile(fileRepository)
+	bucket := adapters.NewMinio()
+	err := bucket.CreateBucket()
+	if err != nil {
+		panic(err)
+	}
+	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	r.POST("/upload", func(c *gin.Context) {
 		fileHeader, err := c.FormFile("file")
 		if err != nil {
