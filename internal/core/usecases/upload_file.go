@@ -37,7 +37,7 @@ func (u *UploadFile) Execute(input UploadFileInput) error {
 	newName := fmt.Sprintf("%s%s", fileID, ext)
 	file, err := domain.NewFile(
 		fileID,
-		input.Name,
+		newName,
 		input.Mimetype,
 		fmt.Sprintf("/%s/%s", bucketName, newName),
 		input.Size,
