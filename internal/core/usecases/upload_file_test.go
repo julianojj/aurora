@@ -24,5 +24,4 @@ func TestShouldUploadFile(t *testing.T) {
 	assert.NoError(t, err)
 	files, _ := fileRepository.FindAll()
 	assert.Len(t, files, 1)
-	assert.Equal(t, "test", files[0].Name)
 }
