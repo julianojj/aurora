@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/julianojj/aurora/internal/core/usecases"
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/repository"
