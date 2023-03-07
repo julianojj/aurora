@@ -11,5 +11,12 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+  aurora:
+    container_name: aurora
+    build: .
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
 volumes:
   minio_data:
