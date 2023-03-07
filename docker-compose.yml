@@ -3,11 +3,11 @@ services:
   minio:
     image: minio/minio:RELEASE.2023-02-27T18-10-45Z
     container_name: minio
-    ports:
+    expose:
       - 9000:9000
       - 9001:9001
     env_file:
-      - ./minio.env
+      - .env
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
@@ -18,5 +18,7 @@ services:
       - 8080:8080
     env_file:
       - .env
+    depends_on:
+      - minio
 volumes:
   minio_data:
