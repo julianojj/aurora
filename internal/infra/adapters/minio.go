@@ -18,8 +18,8 @@ type Minio struct {
 
 func NewMinio() *Minio {
 	endpoint := os.Getenv("MINIO_ENDPOINT")
-	accessID := os.Getenv("MINIO_ACCESS_KEY")
-	accessKey := os.Getenv("MINIO_SECRET_KEY")
+	accessID := os.Getenv("MINIO_ROOT_USER")
+	accessKey := os.Getenv("MINIO_ROOT_PASSWORD")
 	bucketName := os.Getenv("MINIO_BUCKET_NAME")
 	client, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessID, accessKey, ""),
