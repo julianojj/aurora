@@ -23,17 +23,16 @@ func main() {
 	createProjectController := controllers.NewCreateProjectController(createProject)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
-	routes.NewUploadFileRoute(
+	getUploads := usecases.NewGetUploads(fileRepository)
+	getUploadsController := controllers.NewGetUploadsController(getUploads)
+	routes.NewUploadRoute(
 		r,
 		uploadFileController,
+		getUploadsController,
 	).Register()
 	routes.NewProjectRoute(
 		r,
 		createProjectController,
 	).Register()
-	r.GET("/uploads", func(c *gin.Context) {
-		files, _ := fileRepository.FindAll()
-		c.JSON(200, files)
-	})
 	r.Run(":8080")
 }
