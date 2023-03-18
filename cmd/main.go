@@ -13,16 +13,23 @@ import (
 func main() {
 	r := gin.Default()
 	fileRepository := repository.NewFileRepositoryMemory()
+	projectRepository := repository.NewProjectRepositoryMemory()
 	bucket := adapters.NewMinio()
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
 	}
+	createProject := usecases.NewCreateProject(projectRepository)
+	createProjectController := controllers.NewCreateProjectController(createProject)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	routes.NewUploadFileRoute(
 		r,
 		uploadFileController,
+	).Register()
+	routes.NewProjectRoute(
+		r,
+		createProjectController,
 	).Register()
 	r.GET("/uploads", func(c *gin.Context) {
 		files, _ := fileRepository.FindAll()
