@@ -66,7 +66,7 @@ func TestNotShouldCreateLayerIfEmptyProjectID(t *testing.T) {
 		rotation,
 		properties,
 	)
-	assert.EqualError(t, err, "Project ID cannot be empty")
+	assert.EqualError(t, err, "Artboard ID cannot be empty")
 	assert.Nil(t, layer)
 }
 
