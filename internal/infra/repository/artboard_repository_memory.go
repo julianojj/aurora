@@ -16,3 +16,12 @@ func (a *ArtboardRepositoryMemory) Save(artboard *domain.Artboard) error {
 	a.Artboards = append(a.Artboards, artboard)
 	return nil
 }
+
+func (a *ArtboardRepositoryMemory) Find(artboardID string) (*domain.Artboard, error) {
+	for _, artboard := range a.Artboards {
+		if artboard.ArtboardID == artboardID {
+			return artboard, nil
+		}
+	}
+	return nil, nil
+}
