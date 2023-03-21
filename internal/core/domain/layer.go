@@ -4,7 +4,7 @@ import "github.com/julianojj/aurora/internal/core/exceptions"
 
 type Layer struct {
 	LayerID    string
-	ProjectID  string
+	ArtboardID  string
 	Name       string
 	LayerType  LayerType
 	Size       *Size
@@ -42,10 +42,10 @@ type Properties struct {
 	Opacity     float64
 }
 
-func NewLayer(layerID string, projectID string, name string, layerType LayerType, size *Size, position *Position, rotation *Rotation, properties *Properties) (*Layer, error) {
+func NewLayer(layerID string, artboardID string, name string, layerType LayerType, size *Size, position *Position, rotation *Rotation, properties *Properties) (*Layer, error) {
 	layer := &Layer{
 		LayerID:    layerID,
-		ProjectID:  projectID,
+		ArtboardID:  artboardID,
 		Name:       name,
 		LayerType:  layerType,
 		Size:       size,
@@ -64,8 +64,8 @@ func (l *Layer) Validate() error {
 	if l.LayerID == "" {
 		return exceptions.NewValidationException("Layer ID cannot be empty")
 	}
-	if l.ProjectID == "" {
-		return exceptions.NewValidationException("Project ID cannot be empty")
+	if l.ArtboardID == "" {
+		return exceptions.NewValidationException("Artboard ID cannot be empty")
 	}
 	if l.Name == "" {
 		return exceptions.NewValidationException("Name cannot be empty")
