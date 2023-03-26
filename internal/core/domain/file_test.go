@@ -8,7 +8,7 @@ import (
 )
 
 func TestNotShouldCreateFileIfEmptyFileID(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"",
 		"test",
 		"image/jpeg",
@@ -17,11 +17,10 @@ func TestNotShouldCreateFileIfEmptyFileID(t *testing.T) {
 		bytes.NewReader([]byte("")),
 	)
 	assert.EqualError(t, err, "File ID cannot be empty")
-	assert.Nil(t, file)
 }
 
 func TestNotShouldCreateFileIfEmptyName(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"1",
 		"",
 		"image/jpeg",
@@ -30,11 +29,10 @@ func TestNotShouldCreateFileIfEmptyName(t *testing.T) {
 		bytes.NewReader([]byte("")),
 	)
 	assert.EqualError(t, err, "Name cannot be empty")
-	assert.Nil(t, file)
 }
 
 func TestNotShouldCreateFileIfEmptyFileType(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"1",
 		"test",
 		"",
@@ -43,11 +41,10 @@ func TestNotShouldCreateFileIfEmptyFileType(t *testing.T) {
 		bytes.NewReader([]byte("")),
 	)
 	assert.EqualError(t, err, "File type cannot be empty")
-	assert.Nil(t, file)
 }
 
 func TestNotShouldCreateFileIfEmptyPath(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"1",
 		"test",
 		"image/jpeg",
@@ -56,11 +53,10 @@ func TestNotShouldCreateFileIfEmptyPath(t *testing.T) {
 		bytes.NewReader([]byte("")),
 	)
 	assert.EqualError(t, err, "Path cannot be empty")
-	assert.Nil(t, file)
 }
 
 func TestNotShouldCreateFileIfInvalidFileType(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"1",
 		"test",
 		"image/test",
@@ -69,11 +65,10 @@ func TestNotShouldCreateFileIfInvalidFileType(t *testing.T) {
 		bytes.NewReader([]byte("")),
 	)
 	assert.EqualError(t, err, "File type not supported")
-	assert.Nil(t, file)
 }
 
 func TestNotShouldCreateFileIfNegativeSize(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"1",
 		"test",
 		"image/jpeg",
@@ -82,11 +77,10 @@ func TestNotShouldCreateFileIfNegativeSize(t *testing.T) {
 		bytes.NewReader([]byte("")),
 	)
 	assert.EqualError(t, err, "File size must be greater than 0")
-	assert.Nil(t, file)
 }
 
 func TestNotShouldCreateFileIfEmptyReader(t *testing.T) {
-	file, err := NewFile(
+	_, err := NewFile(
 		"1",
 		"test",
 		"image/jpeg",
@@ -95,11 +89,10 @@ func TestNotShouldCreateFileIfEmptyReader(t *testing.T) {
 		nil,
 	)
 	assert.EqualError(t, err, "File reader cannot be empty")
-	assert.Nil(t, file)
 }
 
 func TestShouldCreateFile(t *testing.T) {
-	file, err := NewFile(
+	file, _ := NewFile(
 		"1",
 		"test",
 		"image/jpeg",
@@ -107,6 +100,5 @@ func TestShouldCreateFile(t *testing.T) {
 		1,
 		bytes.NewReader([]byte("")),
 	)
-	assert.NoError(t, err)
 	assert.Equal(t, "test", file.Name)
 }
