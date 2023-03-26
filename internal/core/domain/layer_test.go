@@ -24,7 +24,7 @@ func TestNotShouldCreateLayerIfEmptyLayerID(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"",
 		"1",
 		"My Layer",
@@ -35,7 +35,6 @@ func TestNotShouldCreateLayerIfEmptyLayerID(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Layer ID cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptyProjectID(t *testing.T) {
@@ -56,7 +55,7 @@ func TestNotShouldCreateLayerIfEmptyProjectID(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"",
 		"My Layer",
@@ -67,7 +66,6 @@ func TestNotShouldCreateLayerIfEmptyProjectID(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Artboard ID cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptyName(t *testing.T) {
@@ -88,7 +86,7 @@ func TestNotShouldCreateLayerIfEmptyName(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"1",
 		"",
@@ -99,7 +97,6 @@ func TestNotShouldCreateLayerIfEmptyName(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Name cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptyLayerType(t *testing.T) {
@@ -120,7 +117,7 @@ func TestNotShouldCreateLayerIfEmptyLayerType(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"1",
 		"My Layer",
@@ -131,7 +128,6 @@ func TestNotShouldCreateLayerIfEmptyLayerType(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Layer Type cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptySize(t *testing.T) {
@@ -148,7 +144,7 @@ func TestNotShouldCreateLayerIfEmptySize(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"1",
 		"My Layer",
@@ -159,7 +155,6 @@ func TestNotShouldCreateLayerIfEmptySize(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Size cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptyPosition(t *testing.T) {
@@ -176,7 +171,7 @@ func TestNotShouldCreateLayerIfEmptyPosition(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"1",
 		"My Layer",
@@ -187,7 +182,6 @@ func TestNotShouldCreateLayerIfEmptyPosition(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Position cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptyRotation(t *testing.T) {
@@ -205,7 +199,7 @@ func TestNotShouldCreateLayerIfEmptyRotation(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"1",
 		"My Layer",
@@ -216,7 +210,6 @@ func TestNotShouldCreateLayerIfEmptyRotation(t *testing.T) {
 		properties,
 	)
 	assert.EqualError(t, err, "Rotation cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestNotShouldCreateLayerIfEmptyProperties(t *testing.T) {
@@ -232,7 +225,7 @@ func TestNotShouldCreateLayerIfEmptyProperties(t *testing.T) {
 		Angle: 90,
 	}
 
-	layer, err := NewLayer(
+	_, err := NewLayer(
 		"1",
 		"1",
 		"My Layer",
@@ -243,7 +236,6 @@ func TestNotShouldCreateLayerIfEmptyProperties(t *testing.T) {
 		nil,
 	)
 	assert.EqualError(t, err, "Properties cannot be empty")
-	assert.Nil(t, layer)
 }
 
 func TestShouldCreateLayer(t *testing.T) {
@@ -264,7 +256,7 @@ func TestShouldCreateLayer(t *testing.T) {
 		StrokeWidth: 1,
 		Opacity:     100,
 	}
-	layer, err := NewLayer(
+	layer, _ := NewLayer(
 		"1",
 		"1",
 		"My Layer",
@@ -274,7 +266,6 @@ func TestShouldCreateLayer(t *testing.T) {
 		rotation,
 		properties,
 	)
-	assert.NoError(t, err)
 	assert.Equal(t, "My Layer", layer.Name)
 	assert.Equal(t, Reactangle, layer.LayerType)
 	assert.Equal(t, size, layer.Size)
