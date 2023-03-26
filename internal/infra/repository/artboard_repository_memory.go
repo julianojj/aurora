@@ -25,3 +25,13 @@ func (a *ArtboardRepositoryMemory) Find(artboardID string) (*domain.Artboard, er
 	}
 	return nil, nil
 }
+
+func (a *ArtboardRepositoryMemory) FindByProjectID(projectID string) ([]*domain.Artboard, error) {
+	var artboards []*domain.Artboard
+	for _, artboard := range a.Artboards {
+		if artboard.ProjectID == projectID {
+			artboards = append(artboards, artboard)
+		}
+	}
+	return artboards, nil
+}
