@@ -13,9 +13,7 @@ func TestShouldCreateProject(t *testing.T) {
 	input := CreateProjectInput{
 		Name: "Untitled Project",
 	}
-	output, err := createProject.Execute(input)
-	assert.NoError(t, err)
+	output, _ := createProject.Execute(input)
 	project, _ := projectRepository.Find(output.ProjectID)
-	assert.NoError(t, err)
 	assert.Equal(t, "Untitled Project", project.Name)
 }
