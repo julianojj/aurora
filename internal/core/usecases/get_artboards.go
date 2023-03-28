@@ -9,10 +9,10 @@ type GetArtboards struct {
 }
 
 type GetArtboardsOutput struct {
-	ProjectID  string          `json:"project_id"`
-	ArtboardID string          `json:"artboard_id"`
-	Name       string          `json:"name"`
-	Layers     []*LayersOutput `json:"layers"`
+	ProjectID  string        `json:"project_id"`
+	ArtboardID string        `json:"artboard_id"`
+	Name       string        `json:"name"`
+	Layer      *LayersOutput `json:"layer"`
 }
 
 type LayersOutput struct {
@@ -36,19 +36,15 @@ func (ga *GetArtboards) Execute(projectID string) ([]*GetArtboardsOutput, error)
 	}
 	var output []*GetArtboardsOutput
 	for _, artboard := range artboards {
-		var layersOutput []*LayersOutput
-		for _, layer := range artboard.Layers {
-			layersOutput = append(layersOutput, &LayersOutput{
-				LayerID: layer.LayerID,
-				Name:    layer.Name,
-				Type:    string(layer.LayerType),
-			})
-		}
 		output = append(output, &GetArtboardsOutput{
 			ProjectID:  projectID,
 			ArtboardID: artboard.ArtboardID,
 			Name:       artboard.Name,
-			Layers:     layersOutput,
+			Layer: &LayersOutput{
+				LayerID: artboard.Layer.LayerID,
+				Name:    artboard.Layer.Name,
+				Type:    artboard.Layer.LayerType,
+			},
 		})
 	}
 	return output, nil

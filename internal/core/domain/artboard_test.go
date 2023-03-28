@@ -11,6 +11,7 @@ func TestReturnErrorIfEmptyArtboardID(t *testing.T) {
 		"",
 		"1",
 		"My Artboard",
+		&Layer{},
 	)
 	assert.EqualError(t, err, "Artboard ID cannot be empty")
 }
@@ -20,6 +21,7 @@ func TestReturnErrorIfEmptyProjectID(t *testing.T) {
 		"1",
 		"",
 		"My Artboard",
+		&Layer{},
 	)
 	assert.EqualError(t, err, "Project ID cannot be empty")
 }
@@ -29,6 +31,7 @@ func TestReturnErrorIfEmptyName(t *testing.T) {
 		"1",
 		"1",
 		"",
+		&Layer{},
 	)
 	assert.EqualError(t, err, "Name cannot be empty")
 }
@@ -55,7 +58,7 @@ func TestCreateArtboard(t *testing.T) {
 		"1",
 		"1",
 		"My Layer",
-		Reactangle,
+		"layer",
 		size,
 		position,
 		rotation,
@@ -65,9 +68,10 @@ func TestCreateArtboard(t *testing.T) {
 		"1",
 		"1",
 		"My Artboard",
+		layer,
 	)
-	artboard.AddLayer(layer)
+	artboard.AddChildren(map[string]any{})
 	assert.NotNil(t, artboard)
 	assert.Equal(t, "My Artboard", artboard.Name)
-	assert.Len(t, artboard.Layers, 1)
+	assert.Equal(t, layer, artboard.Layer)
 }

@@ -38,6 +38,7 @@ func (c *CreateArtboard) Execute(input CreateArtboardInput) error {
 		uuid.NewString(),
 		existingProject.ID,
 		input.Name,
+		&domain.Layer{},
 	)
 	if err != nil {
 		return err

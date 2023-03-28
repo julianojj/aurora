@@ -25,5 +25,4 @@ func TestGetArtboards(t *testing.T) {
 	artboards, _ := getArtboards.Execute(outputCreateProject.ProjectID)
 	assert.Equal(t, 1, len(artboards))
 	assert.Equal(t, "My Artboard", artboards[0].Name)
-	assert.Len(t, artboards[0].Layers, 0)
 }
