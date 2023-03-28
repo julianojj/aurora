@@ -8,15 +8,15 @@ type Artboard struct {
 	ArtboardID string
 	ProjectID  string
 	Name       string
-	Layers     []*Layer
+	Layer      *Layer
 }
 
-func NewArtboard(id string, projectID string, name string) (*Artboard, error) {
+func NewArtboard(id string, projectID string, name string, layer *Layer) (*Artboard, error) {
 	artboard := &Artboard{
 		ArtboardID: id,
 		ProjectID:  projectID,
 		Name:       name,
-		Layers:     make([]*Layer, 0),
+		Layer:      layer,
 	}
 	err := artboard.Validate()
 	if err != nil {
@@ -38,6 +38,6 @@ func (a *Artboard) Validate() error {
 	return nil
 }
 
-func (a *Artboard) AddLayer(layer *Layer) {
-	a.Layers = append(a.Layers, layer)
+func (a *Artboard) AddChildren(children any) {
+	a.Layer.Children = append(a.Layer.Children, children)
 }

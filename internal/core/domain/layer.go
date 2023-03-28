@@ -4,22 +4,15 @@ import "github.com/julianojj/aurora/internal/core/exceptions"
 
 type Layer struct {
 	LayerID    string
-	ArtboardID  string
+	ArtboardID string
 	Name       string
-	LayerType  LayerType
+	LayerType  string
 	Size       *Size
 	Position   *Position
 	Rotation   *Rotation
 	Properties *Properties
+	Children   []any
 }
-
-type LayerType string
-
-const (
-	Reactangle LayerType = "reactangle"
-	Text       LayerType = "text"
-	Image      LayerType = "image"
-)
 
 type Size struct {
 	Width  float64
@@ -42,10 +35,10 @@ type Properties struct {
 	Opacity     float64
 }
 
-func NewLayer(layerID string, artboardID string, name string, layerType LayerType, size *Size, position *Position, rotation *Rotation, properties *Properties) (*Layer, error) {
+func NewLayer(layerID string, artboardID string, name string, layerType string, size *Size, position *Position, rotation *Rotation, properties *Properties) (*Layer, error) {
 	layer := &Layer{
 		LayerID:    layerID,
-		ArtboardID:  artboardID,
+		ArtboardID: artboardID,
 		Name:       name,
 		LayerType:  layerType,
 		Size:       size,
