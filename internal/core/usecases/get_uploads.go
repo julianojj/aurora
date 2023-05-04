@@ -10,7 +10,6 @@ type GetUploadsOutput struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 	Size int64  `json:"size"`
-	Path  string `json:"path"`
 }
 
 func NewGetUploads(
@@ -32,7 +31,6 @@ func (gu *GetUploads) Execute() ([]*GetUploadsOutput, error) {
 			ID:   upload.FileID,
 			Name: upload.Name,
 			Size: upload.Size,
-			Path:  upload.Path,
 		})
 	}
 	return output, nil
