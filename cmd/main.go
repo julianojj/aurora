@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/julianojj/aurora/internal/core/usecases"
@@ -14,7 +16,7 @@ func main() {
 	r := gin.Default()
 	fileRepository := repository.NewFileRepositoryMemory()
 	projectRepository := repository.NewProjectRepositoryMemory()
-	bucket := adapters.NewMinio()
+	bucket := adapters.NewS3(os.Getenv("BUCKET_NAME"))
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
