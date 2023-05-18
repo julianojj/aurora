@@ -6,11 +6,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const ArtboardName = "My Artboard"
+
 func TestReturnErrorIfEmptyArtboardID(t *testing.T) {
 	_, err := NewArtboard(
 		"",
 		"1",
-		"My Artboard",
+		ArtboardName,
 		&Layer{},
 	)
 	assert.EqualError(t, err, "Artboard ID cannot be empty")
@@ -20,7 +22,7 @@ func TestReturnErrorIfEmptyProjectID(t *testing.T) {
 	_, err := NewArtboard(
 		"1",
 		"",
-		"My Artboard",
+		ArtboardName,
 		&Layer{},
 	)
 	assert.EqualError(t, err, "Project ID cannot be empty")
@@ -49,6 +51,9 @@ func TestCreateArtboard(t *testing.T) {
 		Angle: 90,
 	}
 	properties := &Properties{
+		Size:        size,
+		Position:    position,
+		Rotation:    rotation,
 		FillColor:   "#FFF",
 		StrokeColor: "#000",
 		StrokeWidth: 1,
@@ -59,19 +64,16 @@ func TestCreateArtboard(t *testing.T) {
 		"1",
 		"My Layer",
 		"layer",
-		size,
-		position,
-		rotation,
 		properties,
 	)
 	artboard, _ := NewArtboard(
 		"1",
 		"1",
-		"My Artboard",
+		ArtboardName,
 		layer,
 	)
 	artboard.AddChildren(map[string]any{})
 	assert.NotNil(t, artboard)
-	assert.Equal(t, "My Artboard", artboard.Name)
+	assert.Equal(t, ArtboardName, artboard.Name)
 	assert.Equal(t, layer, artboard.Layer)
 }

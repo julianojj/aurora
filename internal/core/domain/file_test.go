@@ -7,12 +7,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const ImagePath = "image/aurora.jpg"
+const ImageType = "image/jpeg"
+
 func TestNotShouldCreateFileIfEmptyFileID(t *testing.T) {
 	_, err := NewFile(
 		"",
 		"test",
-		"image/jpeg",
-		"/aurora/test.jpg",
+		ImageType,
+		ImagePath,
 		1,
 		bytes.NewReader([]byte("")),
 	)
@@ -23,8 +26,8 @@ func TestNotShouldCreateFileIfEmptyName(t *testing.T) {
 	_, err := NewFile(
 		"1",
 		"",
-		"image/jpeg",
-		"/aurora/test.jpg",
+		ImageType,
+		ImagePath,
 		1,
 		bytes.NewReader([]byte("")),
 	)
@@ -36,7 +39,7 @@ func TestNotShouldCreateFileIfEmptyFileType(t *testing.T) {
 		"1",
 		"test",
 		"",
-		"/aurora/test.jpg",
+		ImagePath,
 		1,
 		bytes.NewReader([]byte("")),
 	)
@@ -47,7 +50,7 @@ func TestNotShouldCreateFileIfEmptyPath(t *testing.T) {
 	_, err := NewFile(
 		"1",
 		"test",
-		"image/jpeg",
+		ImageType,
 		"",
 		1,
 		bytes.NewReader([]byte("")),
@@ -60,7 +63,7 @@ func TestNotShouldCreateFileIfInvalidFileType(t *testing.T) {
 		"1",
 		"test",
 		"image/test",
-		"/aurora/image.jpg",
+		ImagePath,
 		1,
 		bytes.NewReader([]byte("")),
 	)
@@ -71,8 +74,8 @@ func TestNotShouldCreateFileIfNegativeSize(t *testing.T) {
 	_, err := NewFile(
 		"1",
 		"test",
-		"image/jpeg",
-		"/aurora/image.jpg",
+		ImageType,
+		ImagePath,
 		0,
 		bytes.NewReader([]byte("")),
 	)
@@ -83,8 +86,8 @@ func TestNotShouldCreateFileIfEmptyReader(t *testing.T) {
 	_, err := NewFile(
 		"1",
 		"test",
-		"image/jpeg",
-		"/aurora/image.jpg",
+		ImageType,
+		ImagePath,
 		1,
 		nil,
 	)
@@ -95,8 +98,8 @@ func TestShouldCreateFile(t *testing.T) {
 	file, _ := NewFile(
 		"1",
 		"test",
-		"image/jpeg",
-		"/aurora/test.jpg",
+		ImageType,
+		ImagePath,
 		1,
 		bytes.NewReader([]byte("")),
 	)

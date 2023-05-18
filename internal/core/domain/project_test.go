@@ -7,9 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const ProjectName = "My Project"
+
 func TestNotShouldCreateProjectIfEmptyProjectID(t *testing.T) {
 	today := time.Now()
-	_, err := NewProject("", "My Project", today, today)
+	_, err := NewProject("", ProjectName, today, today)
 	assert.EqualError(t, err, "Project ID cannot be empty")
 }
 
@@ -21,9 +23,9 @@ func TestNotShouldCreateProjectIfEmptyName(t *testing.T) {
 
 func TestShouldCreateProject(t *testing.T) {
 	today := time.Now()
-	project, _ := NewProject("1", "My Project", today, today)
+	project, _ := NewProject("1", ProjectName, today, today)
 	assert.Equal(t, "1", project.ID)
-	assert.Equal(t, "My Project", project.Name)
+	assert.Equal(t, ProjectName, project.Name)
 	assert.Equal(t, today, project.CreatedAt)
 	assert.Equal(t, today, project.UpdatedAt)
 }
