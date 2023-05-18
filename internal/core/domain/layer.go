@@ -29,21 +29,27 @@ type Rotation struct {
 }
 
 type Properties struct {
+	Size        *Size
+	Position    *Position
+	Rotation    *Rotation
 	FillColor   string
 	StrokeColor string
 	StrokeWidth float64
 	Opacity     float64
 }
 
-func NewLayer(layerID string, artboardID string, name string, layerType string, size *Size, position *Position, rotation *Rotation, properties *Properties) (*Layer, error) {
+func NewLayer(
+	layerID string,
+	artboardID string,
+	name string,
+	layerType string,
+	properties *Properties,
+) (*Layer, error) {
 	layer := &Layer{
 		LayerID:    layerID,
 		ArtboardID: artboardID,
 		Name:       name,
 		LayerType:  layerType,
-		Size:       size,
-		Position:   position,
-		Rotation:   rotation,
 		Properties: properties,
 	}
 	err := layer.Validate()
@@ -66,17 +72,17 @@ func (l *Layer) Validate() error {
 	if l.LayerType == "" {
 		return exceptions.NewValidationException("Layer Type cannot be empty")
 	}
-	if l.Size == nil {
-		return exceptions.NewValidationException("Size cannot be empty")
-	}
-	if l.Position == nil {
-		return exceptions.NewValidationException("Position cannot be empty")
-	}
-	if l.Rotation == nil {
-		return exceptions.NewValidationException("Rotation cannot be empty")
-	}
 	if l.Properties == nil {
 		return exceptions.NewValidationException("Properties cannot be empty")
+	}
+	if l.Properties.Size == nil {
+		return exceptions.NewValidationException("Size cannot be empty")
+	}
+	if l.Properties.Position == nil {
+		return exceptions.NewValidationException("Position cannot be empty")
+	}
+	if l.Properties.Rotation == nil {
+		return exceptions.NewValidationException("Rotation cannot be empty")
 	}
 	return nil
 }
