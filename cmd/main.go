@@ -16,7 +16,7 @@ func main() {
 	r := gin.Default()
 	fileRepository := repository.NewFileRepositoryMemory()
 	projectRepository := repository.NewProjectRepositoryMemory()
-	bucket := adapters.NewS3(os.Getenv("BUCKET_NAME"))
+	bucket := adapters.NewMinio(os.Getenv("BUCKET_NAME"))
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
