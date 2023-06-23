@@ -49,8 +49,9 @@ func TestShouldCreateArtboard(t *testing.T) {
 		ProjectID: output.ProjectID,
 		Name:      "My Artboard",
 	}
-	createArtboard.Execute(inputCreateArtboard)
+	err := createArtboard.Execute(inputCreateArtboard)
 	artboards := artboardRepository.Artboards
+	assert.NoError(t, err)
 	assert.Len(t, artboards, 1)
 	assert.Equal(t, inputCreateArtboard.Name, artboards[0].Name)
 }

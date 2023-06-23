@@ -8,29 +8,20 @@ import (
 	"github.com/julianojj/aurora/internal/core/usecases"
 )
 
-type CreateProjectController struct {
-	createProject *usecases.CreateProject
+type GetProjectController struct {
+	getProject *usecases.GetProject
 }
 
-func NewCreateProjectController(createProject *usecases.CreateProject) *CreateProjectController {
-	return &CreateProjectController{
-		createProject,
+func NewGetProjectController(getProject *usecases.GetProject) *GetProjectController {
+	return &GetProjectController{
+		getProject,
 	}
 }
 
-func (cpc *CreateProjectController) Handle(c *gin.Context) {
-	var input usecases.CreateProjectInput
-	err := c.BindJSON(&input)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
-			"code":    http.StatusBadRequest,
-		})
-		return
-	}
-	project, err := cpc.createProject.Execute(input)
+func (gpc *GetProjectController) Handle(c *gin.Context) {
+	project, err := gpc.getProject.Execute(c.Param("id"))
 	if err == nil {
-		c.JSON(http.StatusCreated, project)
+		c.JSON(http.StatusOK, project)
 		return
 	}
 	switch err.(type) {
