@@ -1,6 +1,8 @@
 package domain
 
-import "github.com/julianojj/aurora/internal/core/exceptions"
+import (
+	"github.com/julianojj/aurora/internal/core/exceptions"
+)
 
 type Layer struct {
 	LayerID    string
