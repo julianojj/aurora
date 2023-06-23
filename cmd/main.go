@@ -23,6 +23,8 @@ func main() {
 	}
 	createProject := usecases.NewCreateProject(projectRepository)
 	createProjectController := controllers.NewCreateProjectController(createProject)
+	getProject := usecases.NewGetProject(projectRepository)
+	getProjectController := controllers.NewGetProjectController(getProject)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	getUploads := usecases.NewGetUploads(fileRepository)
@@ -35,6 +37,7 @@ func main() {
 	routes.NewProjectRoute(
 		r,
 		createProjectController,
+		getProjectController,
 	).Register()
 	err = r.Run(":8080")
 	if err != nil {
