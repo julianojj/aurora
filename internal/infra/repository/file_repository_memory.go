@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/julianojj/aurora/internal/core/domain"
+import (
+	"github.com/julianojj/aurora/internal/core/domain"
+)
 
 type FileRepositoryMemory struct {
 	Files []*domain.File
@@ -19,4 +21,15 @@ func (frm *FileRepositoryMemory) Save(file *domain.File) error {
 
 func (frm *FileRepositoryMemory) FindAll() ([]*domain.File, error) {
 	return frm.Files, nil
+}
+
+func (frm *FileRepositoryMemory) Delete(fileID string) error {
+	var files []*domain.File
+	for _, file := range frm.Files {
+		if file.FileID != fileID {
+			files = append(files, file)
+		}
+	}
+	frm.Files = files
+	return nil
 }
