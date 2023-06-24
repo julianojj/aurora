@@ -7,4 +7,5 @@ import (
 type Bucket interface {
 	CreateBucket() error
 	PutObject(file *domain.File) error
+	GetObject(fileID string) ([]byte, error)
 }

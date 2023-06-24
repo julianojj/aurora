@@ -3,6 +3,7 @@ package adapters
 import (
 	"context"
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/julianojj/aurora/internal/core/domain"
@@ -56,4 +57,21 @@ func (m *Minio) PutObject(file *domain.File) error {
 		return err
 	}
 	return nil
+}
+
+func (m *Minio) GetObject(fileID string) ([]byte, error) {
+	object, err := m.client.GetObject(m.ctx, m.bucketName, fileID, minio.GetObjectOptions{})
+	if err != nil {
+		return nil, err
+	}
+	stat, err := object.Stat()
+	if err != nil {
+		return nil, err
+	}
+	data := make([]byte, stat.Size)
+	n, err := object.Read(data)
+	if err != nil && err != io.EOF {
+		return nil, err
+	}
+	return data[:n], nil
 }

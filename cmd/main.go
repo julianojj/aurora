@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -14,39 +15,60 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	app := gin.Default()
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
-	r.Use(cors.New(config))
+	app.Use(cors.New(config))
+
+	// Repositories
 	fileRepository := repository.NewFileRepositoryMemory()
 	projectRepository := repository.NewProjectRepositoryMemory()
+
+	// Adapters
 	bucket := adapters.NewMinio(os.Getenv("BUCKET_NAME"))
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
 	}
+	// Usecases
 	createProject := usecases.NewCreateProject(projectRepository)
-	createProjectController := controllers.NewCreateProjectController(createProject)
 	getProject := usecases.NewGetProject(projectRepository)
-	getProjectController := controllers.NewGetProjectController(getProject)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
-	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	removeFile := usecases.NewRemoveFile(fileRepository)
-	removeFileController := controllers.NewRemoveFileController(removeFile)
 	getUploads := usecases.NewGetUploads(fileRepository)
+
+	// Controllers
+	createProjectController := controllers.NewCreateProjectController(createProject)
+	getProjectController := controllers.NewGetProjectController(getProject)
 	getUploadsController := controllers.NewGetUploadsController(getUploads)
+	uploadFileController := controllers.NewUploadFileController(uploadFile)
+	removeFileController := controllers.NewRemoveFileController(removeFile)
+
+	// Routes
 	routes.NewUploadRoute(
-		r,
+		app,
 		uploadFileController,
 		getUploadsController,
 		removeFileController,
 	).Register()
 	routes.NewProjectRoute(
-		r,
+		app,
 		createProjectController,
 		getProjectController,
 	).Register()
-	err = r.Run(":8080")
+
+	app.GET("/assets/:id", func(c *gin.Context) {
+		assetID := c.Param("id")
+		asset, err := bucket.GetObject(assetID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, map[string]any{
+				"message": err.Error(),
+				"code":    http.StatusBadRequest,
+			})
+		}
+		c.Writer.Write(asset)
+	})
+	err = app.Run(":8080")
 	if err != nil {
 		panic(err)
 	}
