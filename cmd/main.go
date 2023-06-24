@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/julianojj/aurora/internal/core/usecases"
@@ -14,6 +15,9 @@ import (
 
 func main() {
 	r := gin.Default()
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	r.Use(cors.New(config))
 	fileRepository := repository.NewFileRepositoryMemory()
 	projectRepository := repository.NewProjectRepositoryMemory()
 	bucket := adapters.NewMinio(os.Getenv("BUCKET_NAME"))
@@ -27,12 +31,15 @@ func main() {
 	getProjectController := controllers.NewGetProjectController(getProject)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
+	removeFile := usecases.NewRemoveFile(fileRepository)
+	removeFileController := controllers.NewRemoveFileController(removeFile)
 	getUploads := usecases.NewGetUploads(fileRepository)
 	getUploadsController := controllers.NewGetUploadsController(getUploads)
 	routes.NewUploadRoute(
 		r,
 		uploadFileController,
 		getUploadsController,
+		removeFileController,
 	).Register()
 	routes.NewProjectRoute(
 		r,
