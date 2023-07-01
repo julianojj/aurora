@@ -6,13 +6,15 @@ services:
     env_file:
       - .env
     command: server /data --console-address ":9001"
+    ports:
+      - "9001:9001"
     volumes:
       - minio_data:/data
   aurora:
     container_name: aurora
     build: .
     ports:
-      - "8081:8080"
+      - "8080:8080"
     env_file:
       - .env
     depends_on:
