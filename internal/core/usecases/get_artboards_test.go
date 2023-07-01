@@ -5,12 +5,14 @@ import (
 
 	"github.com/julianojj/aurora/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestGetArtboards(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	artboardRepository := repository.NewArtboardRepositoryMemory()
-	createProject := NewCreateProject(projectRepository)
+	logger, _ := zap.NewProduction()
+	createProject := NewCreateProject(projectRepository, logger)
 	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
 	getArtboards := NewGetArtboards(artboardRepository)
 	inputCreateProject := CreateProjectInput{

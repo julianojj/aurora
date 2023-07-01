@@ -5,6 +5,7 @@ import (
 
 	"github.com/julianojj/aurora/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestReturnExceptionIfProjectNotFound(t *testing.T) {
@@ -15,8 +16,9 @@ func TestReturnExceptionIfProjectNotFound(t *testing.T) {
 }
 
 func TestGetProject(t *testing.T) {
+	logger, _ := zap.NewProduction()
 	projectRepository := repository.NewProjectRepositoryMemory()
-	createProject := NewCreateProject(projectRepository)
+	createProject := NewCreateProject(projectRepository, logger)
 	getProject := NewGetProject(projectRepository)
 	input := CreateProjectInput{
 		Name: "Test",

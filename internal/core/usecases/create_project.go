@@ -5,10 +5,12 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/julianojj/aurora/internal/core/domain"
+	"go.uber.org/zap"
 )
 
 type CreateProject struct {
 	ProjectRepository domain.ProjectRepository
+	Logger            *zap.Logger
 }
 
 type CreateProjectInput struct {
@@ -19,9 +21,13 @@ type CreateProjectOutput struct {
 	ProjectID string `json:"project_id"`
 }
 
-func NewCreateProject(projectRepository domain.ProjectRepository) *CreateProject {
+func NewCreateProject(
+	projectRepository domain.ProjectRepository,
+	logger *zap.Logger,
+) *CreateProject {
 	return &CreateProject{
 		ProjectRepository: projectRepository,
+		Logger:            logger,
 	}
 }
 
@@ -34,14 +40,17 @@ func (c *CreateProject) Execute(input CreateProjectInput) (*CreateProjectOutput,
 		today,
 	)
 	if err != nil {
+		c.Logger.Info(err.Error())
 		return nil, err
 	}
 	err = c.ProjectRepository.Save(project)
 	if err != nil {
+		c.Logger.Info(err.Error())
 		return nil, err
 	}
 	output := &CreateProjectOutput{
 		ProjectID: project.ID,
 	}
+	c.Logger.Info("created.project")
 	return output, nil
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/julianojj/aurora/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestReturnErrorIfProjectNotFound(t *testing.T) {
@@ -22,7 +23,8 @@ func TestReturnErrorIfProjectNotFound(t *testing.T) {
 func TestReturnErrorIfEmptyArtboardName(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	artboardRepository := repository.NewArtboardRepositoryMemory()
-	createProject := NewCreateProject(projectRepository)
+	logger, _ := zap.NewProduction()
+	createProject := NewCreateProject(projectRepository, logger)
 	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
 	inputCreateProject := CreateProjectInput{
 		Name: "Untitled Project",
@@ -39,7 +41,8 @@ func TestReturnErrorIfEmptyArtboardName(t *testing.T) {
 func TestShouldCreateArtboard(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	artboardRepository := repository.NewArtboardRepositoryMemory()
-	createProject := NewCreateProject(projectRepository)
+	logger, _ := zap.NewProduction()
+	createProject := NewCreateProject(projectRepository, logger)
 	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
 	inputCreateProject := CreateProjectInput{
 		Name: "Untitled Project",

@@ -12,6 +12,7 @@ import (
 	"github.com/julianojj/aurora/internal/infra/api/controllers"
 	"github.com/julianojj/aurora/internal/infra/api/routes"
 	"github.com/julianojj/aurora/internal/infra/repository"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
 	app.Use(cors.New(config))
+	logger, _ := zap.NewProduction()
 
 	// Repositories
 	fileRepository := repository.NewFileRepositoryMemory()
@@ -31,7 +33,7 @@ func main() {
 		panic(err)
 	}
 	// Usecases
-	createProject := usecases.NewCreateProject(projectRepository)
+	createProject := usecases.NewCreateProject(projectRepository, logger)
 	getProject := usecases.NewGetProject(projectRepository)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	removeFile := usecases.NewRemoveFile(fileRepository)
