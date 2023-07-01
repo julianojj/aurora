@@ -14,7 +14,7 @@ func TestRemoveFile(t *testing.T) {
 	bucket := adapters.NewFakeBucket()
 	uploadFile := NewUploadFile(fileRepository, bucket)
 	getUploads := NewGetUploads(fileRepository)
-	removeFile := NewRemoveFile(fileRepository)
+	removeFile := NewRemoveFile(fileRepository, bucket)
 	file := bytes.NewReader([]byte("test"))
 	input := UploadFileInput{
 		Name:     "test",
