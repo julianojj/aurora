@@ -37,3 +37,14 @@ func (f *FakeBucket) GetObject(fileID string) ([]byte, error) {
 	}
 	return nil, nil
 }
+
+func (f *FakeBucket) DeleteObject(fileID string) error {
+	var files []*domain.File
+	for _, file := range f.files {
+		if file.FileID != fileID {
+			files = append(files, file)
+		}
+	}
+	f.files = files
+	return nil
+}

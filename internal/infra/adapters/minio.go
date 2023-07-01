@@ -75,3 +75,11 @@ func (m *Minio) GetObject(fileID string) ([]byte, error) {
 	}
 	return data[:n], nil
 }
+
+func (m *Minio) DeleteObject(fileID string) error {
+	err := m.client.RemoveObject(m.ctx, m.bucketName, fileID, minio.RemoveObjectOptions{})
+	if err != nil {
+		return err
+	}
+	return nil
+}
