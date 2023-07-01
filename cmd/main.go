@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -38,6 +37,7 @@ func main() {
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	removeFile := usecases.NewRemoveFile(fileRepository, bucket, logger)
 	getUploads := usecases.NewGetUploads(fileRepository)
+	getAsset := usecases.NewGetAsset(bucket, logger)
 
 	// Controllers
 	createProjectController := controllers.NewCreateProjectController(createProject)
@@ -45,6 +45,7 @@ func main() {
 	getUploadsController := controllers.NewGetUploadsController(getUploads)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	removeFileController := controllers.NewRemoveFileController(removeFile)
+	getAssetController := controllers.NewGetAssetController(getAsset)
 
 	// Routes
 	routes.NewUploadRoute(
@@ -52,6 +53,7 @@ func main() {
 		uploadFileController,
 		getUploadsController,
 		removeFileController,
+		getAssetController,
 	).Register()
 	routes.NewProjectRoute(
 		app,
@@ -59,17 +61,6 @@ func main() {
 		getProjectController,
 	).Register()
 
-	app.GET("/assets/:id", func(c *gin.Context) {
-		assetID := c.Param("id")
-		asset, err := bucket.GetObject(assetID)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, map[string]any{
-				"message": err.Error(),
-				"code":    http.StatusBadRequest,
-			})
-		}
-		c.Writer.Write(asset)
-	})
 	err = app.Run(":8080")
 	if err != nil {
 		panic(err)
