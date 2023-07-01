@@ -27,7 +27,7 @@ func NewUploadRoute(
 }
 
 func (u *UploadRoute) Register() {
-	u.r.POST("/upload", u.uploadFileController.Handle)
-	u.r.GET("/uploads", u.getUploadsController.Handle)
-	u.r.DELETE("/uploads/:id", u.removeFileController.Handle)
+	u.r.POST("/upload_file", u.uploadFileController.Handle)
+	u.r.GET("/get_files", u.getUploadsController.Handle)
+	u.r.DELETE("/remove_file/:id", u.removeFileController.Handle)
 }

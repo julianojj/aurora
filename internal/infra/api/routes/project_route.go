@@ -24,6 +24,6 @@ func NewProjectRoute(
 }
 
 func (pr *ProjectRoute) Register() {
-	pr.r.POST("/projects", pr.createProjectController.Handle)
-	pr.r.GET("/projects/:id", pr.getProjectController.Handle)
+	pr.r.POST("/create_project", pr.createProjectController.Handle)
+	pr.r.GET("/get_project/:id", pr.getProjectController.Handle)
 }
