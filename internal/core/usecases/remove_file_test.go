@@ -7,14 +7,16 @@ import (
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestRemoveFile(t *testing.T) {
 	fileRepository := repository.NewFileRepositoryMemory()
 	bucket := adapters.NewFakeBucket()
+	logger, _ := zap.NewProduction()
 	uploadFile := NewUploadFile(fileRepository, bucket)
 	getUploads := NewGetUploads(fileRepository)
-	removeFile := NewRemoveFile(fileRepository, bucket)
+	removeFile := NewRemoveFile(fileRepository, bucket, logger)
 	file := bytes.NewReader([]byte("test"))
 	input := UploadFileInput{
 		Name:     "test",

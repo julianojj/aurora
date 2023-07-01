@@ -36,7 +36,7 @@ func main() {
 	createProject := usecases.NewCreateProject(projectRepository, logger)
 	getProject := usecases.NewGetProject(projectRepository)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
-	removeFile := usecases.NewRemoveFile(fileRepository, bucket)
+	removeFile := usecases.NewRemoveFile(fileRepository, bucket, logger)
 	getUploads := usecases.NewGetUploads(fileRepository)
 
 	// Controllers
