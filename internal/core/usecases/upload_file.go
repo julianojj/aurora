@@ -3,7 +3,6 @@ package usecases
 import (
 	"fmt"
 	"io"
-	"os"
 	"path"
 
 	"github.com/google/uuid"
@@ -32,14 +31,13 @@ func NewUploadFile(fileRepository domain.FileRepository, bucket adapters.Bucket)
 
 func (u *UploadFile) Execute(input UploadFileInput) error {
 	fileID := uuid.NewString()
-	bucketName := os.Getenv("MINIO_BUCKET_NAME")
 	ext := path.Ext(input.Name)
 	newName := fmt.Sprintf("%s%s", fileID, ext)
 	file, err := domain.NewFile(
 		fileID,
 		newName,
 		input.Mimetype,
-		fmt.Sprintf("/%s/%s", bucketName, newName),
+		fmt.Sprintf("/get_asset/%s", newName),
 		input.Size,
 		input.Reader,
 	)
