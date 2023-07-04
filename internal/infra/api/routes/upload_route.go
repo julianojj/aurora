@@ -17,14 +17,14 @@ func NewUploadRoute(
 	r *gin.Engine,
 	uploadFileController *controllers.UploadFileController,
 	getUploadsController *controllers.GetUploadsController,
-	removeFileCOntroller *controllers.RemoveFileController,
+	removeFileController *controllers.RemoveFileController,
 	getAssetController *controllers.GetAssetController,
 ) *UploadRoute {
 	return &UploadRoute{
 		r,
 		uploadFileController,
 		getUploadsController,
-		removeFileCOntroller,
+		removeFileController,
 		getAssetController,
 	}
 }
