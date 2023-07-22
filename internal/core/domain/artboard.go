@@ -27,13 +27,13 @@ func NewArtboard(id string, projectID string, name string, layer *Layer) (*Artbo
 
 func (a *Artboard) Validate() error {
 	if a.ArtboardID == "" {
-		return exceptions.NewValidationException("Artboard ID cannot be empty")
+		return exceptions.NewValidationException(exceptions.EMPTY_ARTBOARD_ID)
 	}
 	if a.ProjectID == "" {
-		return exceptions.NewValidationException("Project ID cannot be empty")
+		return exceptions.NewValidationException(exceptions.EMPTY_PROJECT_ID)
 	}
 	if a.Name == "" {
-		return exceptions.NewValidationException("Name cannot be empty")
+		return exceptions.NewValidationException(exceptions.EMPTY_ARTBOARD_NAME)
 	}
 	return nil
 }

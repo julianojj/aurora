@@ -3,42 +3,11 @@ package domain
 import (
 	"testing"
 
+	"github.com/julianojj/aurora/internal/core/exceptions"
 	"github.com/stretchr/testify/assert"
 )
 
-const ArtboardName = "My Artboard"
-
-func TestReturnErrorIfEmptyArtboardID(t *testing.T) {
-	_, err := NewArtboard(
-		"",
-		"1",
-		ArtboardName,
-		&Layer{},
-	)
-	assert.EqualError(t, err, "Artboard ID cannot be empty")
-}
-
-func TestReturnErrorIfEmptyProjectID(t *testing.T) {
-	_, err := NewArtboard(
-		"1",
-		"",
-		ArtboardName,
-		&Layer{},
-	)
-	assert.EqualError(t, err, "Project ID cannot be empty")
-}
-
-func TestReturnErrorIfEmptyName(t *testing.T) {
-	_, err := NewArtboard(
-		"1",
-		"1",
-		"",
-		&Layer{},
-	)
-	assert.EqualError(t, err, "Name cannot be empty")
-}
-
-func TestCreateArtboard(t *testing.T) {
+func TestArtboard(t *testing.T) {
 	size := &Size{
 		Width:  100,
 		Height: 100,
@@ -69,11 +38,27 @@ func TestCreateArtboard(t *testing.T) {
 	artboard, _ := NewArtboard(
 		"1",
 		"1",
-		ArtboardName,
+		"My Artboard",
 		layer,
 	)
-	artboard.AddChildren(map[string]any{})
-	assert.NotNil(t, artboard)
-	assert.Equal(t, ArtboardName, artboard.Name)
+
+	assert.Equal(t, "1", artboard.ArtboardID)
+	assert.Equal(t, "1", artboard.ProjectID)
+	assert.Equal(t, "My Artboard", artboard.Name)
 	assert.Equal(t, layer, artboard.Layer)
+
+	t.Run("Return exception if empty artboard id", func(t *testing.T) {
+		_, err := NewArtboard("", "1", "My Artboard", &Layer{})
+		assert.EqualError(t, err, exceptions.EMPTY_ARTBOARD_ID)
+	})
+
+	t.Run("Return exception if empty project id", func(t *testing.T) {
+		_, err := NewArtboard("1", "", "My Artboard", &Layer{})
+		assert.EqualError(t, err, exceptions.EMPTY_PROJECT_ID)
+	})
+
+	t.Run("Return exception if empty artboard name", func(t *testing.T) {
+		_, err := NewArtboard("1", "1", "", &Layer{})
+		assert.EqualError(t, err, exceptions.EMPTY_ARTBOARD_NAME)
+	})
 }
