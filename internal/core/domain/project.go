@@ -32,10 +32,10 @@ func NewProject(
 
 func (p *Project) Validate() error {
 	if p.ID == "" {
-		return exceptions.NewValidationException("Project ID cannot be empty")
+		return exceptions.NewValidationException(exceptions.EMPTY_PROJECT_ID)
 	}
 	if p.Name == "" {
-		return exceptions.NewValidationException("Name cannot be empty")
+		return exceptions.NewValidationException(exceptions.EMPTY_PROJECT_NAME)
 	}
 	return nil
 }
