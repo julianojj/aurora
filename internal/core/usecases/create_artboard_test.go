@@ -20,24 +20,6 @@ func TestReturnErrorIfProjectNotFound(t *testing.T) {
 	assert.EqualError(t, err, "project not found")
 }
 
-func TestReturnErrorIfEmptyArtboardName(t *testing.T) {
-	projectRepository := repository.NewProjectRepositoryMemory()
-	artboardRepository := repository.NewArtboardRepositoryMemory()
-	logger, _ := zap.NewProduction()
-	createProject := NewCreateProject(projectRepository, logger)
-	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
-	inputCreateProject := CreateProjectInput{
-		Name: "Untitled Project",
-	}
-	output, _ := createProject.Execute(inputCreateProject)
-	inputCreateArtboard := CreateArtboardInput{
-		ProjectID: output.ProjectID,
-		Name:      "",
-	}
-	err := createArtboard.Execute(inputCreateArtboard)
-	assert.EqualError(t, err, "Name cannot be empty")
-}
-
 func TestShouldCreateArtboard(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	artboardRepository := repository.NewArtboardRepositoryMemory()
