@@ -13,7 +13,7 @@ func TestGetArtboards(t *testing.T) {
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 	logger, _ := zap.NewProduction()
 	createProject := NewCreateProject(projectRepository, logger)
-	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
+	createArtboard := NewCreateArtboard(projectRepository, artboardRepository, logger)
 	getArtboards := NewGetArtboards(artboardRepository)
 	inputCreateProject := CreateProjectInput{
 		Name: "Untitled Project",

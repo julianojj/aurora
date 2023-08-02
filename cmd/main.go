@@ -24,6 +24,7 @@ func main() {
 	// Repositories
 	fileRepository := repository.NewFileRepositoryMemory()
 	projectRepository := repository.NewProjectRepositoryMemory()
+	artboardRepository := repository.NewArtboardRepositoryMemory()
 
 	// Adapters
 	bucket := adapters.NewMinio(os.Getenv("BUCKET_NAME"))
@@ -34,6 +35,7 @@ func main() {
 	// Usecases
 	createProject := usecases.NewCreateProject(projectRepository, logger)
 	getProject := usecases.NewGetProject(projectRepository)
+	createArtboard := usecases.NewCreateArtboard(projectRepository, artboardRepository, logger)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	removeFile := usecases.NewRemoveFile(fileRepository, bucket, logger)
 	getUploads := usecases.NewGetUploads(fileRepository)
@@ -42,6 +44,7 @@ func main() {
 	// Controllers
 	createProjectController := controllers.NewCreateProjectController(createProject)
 	getProjectController := controllers.NewGetProjectController(getProject)
+	createArtboardController := controllers.NewCreateArtboardController(createArtboard)
 	getUploadsController := controllers.NewGetUploadsController(getUploads)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	removeFileController := controllers.NewRemoveFileController(removeFile)
@@ -59,6 +62,7 @@ func main() {
 		app,
 		createProjectController,
 		getProjectController,
+		createArtboardController,
 	).Register()
 
 	err = app.Run(":8080")
