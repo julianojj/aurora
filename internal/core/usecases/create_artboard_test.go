@@ -11,7 +11,8 @@ import (
 func TestReturnErrorIfProjectNotFound(t *testing.T) {
 	projectRepository := repository.NewProjectRepositoryMemory()
 	artboardRepository := repository.NewArtboardRepositoryMemory()
-	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
+	logger, _ := zap.NewProduction()
+	createArtboard := NewCreateArtboard(projectRepository, artboardRepository, logger)
 	inputCreateArtboard := CreateArtboardInput{
 		ProjectID: "1",
 		Name:      "My Artboard",
@@ -25,7 +26,7 @@ func TestShouldCreateArtboard(t *testing.T) {
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 	logger, _ := zap.NewProduction()
 	createProject := NewCreateProject(projectRepository, logger)
-	createArtboard := NewCreateArtboard(projectRepository, artboardRepository)
+	createArtboard := NewCreateArtboard(projectRepository, artboardRepository, logger)
 	inputCreateProject := CreateProjectInput{
 		Name: "Untitled Project",
 	}
