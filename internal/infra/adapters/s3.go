@@ -56,7 +56,7 @@ func (s *S3) PutObject(file *domain.File) error {
 func (s *S3) DeleteObject(fileID string) error {
 	_, err := s.client.DeleteObject(&s3.DeleteObjectInput{
 		Bucket: aws.String(s.bucketName),
-		Key: aws.String(fileID),
+		Key:    aws.String(fileID),
 	})
 	if err != nil {
 		return err
