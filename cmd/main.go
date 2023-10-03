@@ -9,6 +9,7 @@ import (
 	"github.com/julianojj/aurora/internal/core/usecases"
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/api/controllers"
+	"github.com/julianojj/aurora/internal/infra/api/middlewares"
 	"github.com/julianojj/aurora/internal/infra/api/routes"
 	"github.com/julianojj/aurora/internal/infra/repository"
 	"go.uber.org/zap"
@@ -49,6 +50,9 @@ func main() {
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	removeFileController := controllers.NewRemoveFileController(removeFile)
 	getAssetController := controllers.NewGetAssetController(getAsset)
+
+	// Middlewares
+	app.Use(middlewares.ErrorHandler())
 
 	// Routes
 	routes.NewUploadRoute(
