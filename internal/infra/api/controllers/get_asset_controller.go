@@ -20,11 +20,12 @@ func NewGetAssetController(getAsset *usecases.GetAsset) *GetAssetController {
 func (gac *GetAssetController) Handle(c *gin.Context) {
 	assetID := c.Param("id")
 	asset, err := gac.getAsset.Execute(assetID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, map[string]any{
-			"message": err.Error(),
-			"code":    http.StatusBadRequest,
-		})
+	if err == nil {
+		c.Writer.Write(asset)
+		return
 	}
-	c.Writer.Write(asset)
+	c.JSON(http.StatusNotFound, map[string]any{
+		"message": err.Error(),
+		"code":    http.StatusNotFound,
+	})
 }

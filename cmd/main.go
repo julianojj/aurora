@@ -28,7 +28,7 @@ func main() {
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 
 	// Adapters
-	bucket := adapters.NewMinio(os.Getenv("BUCKET_NAME"))
+	bucket := adapters.NewS3(os.Getenv("AWS_BUCKET_NAME"))
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
