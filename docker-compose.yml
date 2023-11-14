@@ -1,32 +1,10 @@
 version: '3.x'
 services:
-  proxy:
-    image: nginx
-    container_name: proxy
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    environment:
+      - SERVICES=s3
+      - HOSTNAME=localstack
     ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./proxy/:/etc/nginx/conf.d/
-    depends_on:
-      - aurora
-      - minio
-  minio:
-    image: minio/minio:RELEASE.2023-02-27T18-10-45Z
-    container_name: minio
-    env_file:
-      - .env
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio_data:/data
-  aurora:
-    container_name: aurora
-    build: .
-    ports:
-      - "8080:8080"
-    env_file:
-      - .env
-    depends_on:
-      - minio
-volumes:
-  minio_data:
+      - "4566:4566"

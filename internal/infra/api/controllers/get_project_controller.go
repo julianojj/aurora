@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/julianojj/aurora/internal/core/exceptions"
 	"github.com/julianojj/aurora/internal/core/usecases"
 )
 
@@ -24,21 +23,5 @@ func (gpc *GetProjectController) Handle(c *gin.Context) {
 		c.JSON(http.StatusOK, project)
 		return
 	}
-	switch err.(type) {
-	case *exceptions.NotFoundException:
-		c.JSON(http.StatusNotFound, gin.H{
-			"message": err.Error(),
-			"code":    http.StatusNotFound,
-		})
-	case *exceptions.ValidationException:
-		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"message": err.Error(),
-			"code":    http.StatusUnprocessableEntity,
-		})
-	default:
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "internal server error",
-			"code":    http.StatusInternalServerError,
-		})
-	}
+	c.Error(err)
 }
