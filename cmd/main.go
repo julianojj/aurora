@@ -1,11 +1,11 @@
 package main
 
 import (
-	"os"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	_ "github.com/joho/godotenv/autoload"
+
+	// _ "github.com/joho/godotenv/autoload"
+	"github.com/julianojj/aurora/internal/config"
 	"github.com/julianojj/aurora/internal/core/usecases"
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/api/controllers"
@@ -16,10 +16,11 @@ import (
 )
 
 func main() {
+	config := config.LoadConfig("./.env")
 	app := gin.Default()
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-	app.Use(cors.New(config))
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	app.Use(cors.New(corsConfig))
 	logger, _ := zap.NewProduction()
 
 	// Repositories
@@ -28,7 +29,7 @@ func main() {
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 
 	// Adapters
-	bucket := adapters.NewS3(os.Getenv("AWS_BUCKET_NAME"))
+	bucket := adapters.NewS3(config)
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
