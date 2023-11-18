@@ -10,17 +10,21 @@
 Aurora is a back end project made in Go that was based on Adobe XD. In it, good development practices were used, applying concepts of clean architecture, design patterns and tdd.
 
 ## Technologies
-```uuid v1.3.0
-testify v1.8.1
+```
+aws-sdk-go v1.46.3
+gin v1.9.1
+google/uuid v1.3.1
 godotenv v1.5.1
-gin v1.9.0
-minio-go v7.0.51
+minio-go/v7 v7.0.63
+testify v1.8.4
+zap v1.26.0
 ```
 
 ## Folder Structure
 ```
 ├── cmd
 └── internal
+    ├── config
     ├── core
     │   ├── domain
     │   ├── exceptions
@@ -29,6 +33,7 @@ minio-go v7.0.51
         ├── adapters
         ├── api
         │   ├── controllers
+        │   ├── middlewares
         │   └── routes
         └── repository
 ```
