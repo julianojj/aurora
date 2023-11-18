@@ -9,6 +9,7 @@ import (
 
 func ErrorHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		ctx.Next()
 		for _, err := range ctx.Errors {
 			switch err.Err.(type) {
 			case *exceptions.NotFoundException:
