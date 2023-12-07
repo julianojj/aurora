@@ -40,11 +40,42 @@ func (c *CreateArtboard) Execute(input CreateArtboardInput) error {
 		c.logger.Info("project not found")
 		return exceptions.NewNotFoundException("project not found")
 	}
-	artboard, err := domain.NewArtboard(
+	size := &domain.Size{
+		Width:  100,
+		Height: 100,
+	}
+	position := &domain.Position{
+		X: 0,
+		Y: 0,
+	}
+	rotation := &domain.Rotation{
+		Angle: 0,
+	}
+	properties := &domain.Properties{
+		Size:        size,
+		Position:    position,
+		Rotation:    rotation,
+		FillColor:   "#FFF",
+		StrokeColor: "#000",
+		StrokeWidth: 1,
+		Opacity:     100,
+	}
+	artboardId := uuid.NewString()
+	layer, err := domain.NewLayer(
 		uuid.NewString(),
+		artboardId,
+		"Main",
+		"layer",
+		properties,
+	)
+	if err != nil {
+		return err
+	}
+	artboard, err := domain.NewArtboard(
+		artboardId,
 		existingProject.ID,
 		input.Name,
-		&domain.Layer{},
+		layer,
 	)
 	if err != nil {
 		c.logger.Info(err.Error())
@@ -55,6 +86,6 @@ func (c *CreateArtboard) Execute(input CreateArtboardInput) error {
 		c.logger.Info(err.Error())
 		return err
 	}
-	c.logger.Info("created artboard")
+	c.logger.Info("created.artboard", zap.Any("log", artboard))
 	return nil
 }
