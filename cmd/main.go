@@ -38,6 +38,7 @@ func main() {
 	createProject := usecases.NewCreateProject(projectRepository, logger)
 	getProject := usecases.NewGetProject(projectRepository)
 	createArtboard := usecases.NewCreateArtboard(projectRepository, artboardRepository, logger)
+	getArtboards := usecases.NewGetArtboards(artboardRepository)
 	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
 	removeFile := usecases.NewRemoveFile(fileRepository, bucket, logger)
 	getUploads := usecases.NewGetUploads(fileRepository)
@@ -47,6 +48,7 @@ func main() {
 	createProjectController := controllers.NewCreateProjectController(createProject)
 	getProjectController := controllers.NewGetProjectController(getProject)
 	createArtboardController := controllers.NewCreateArtboardController(createArtboard)
+	getArtboardsController := controllers.NewGetArtboardsController(getArtboards)
 	getUploadsController := controllers.NewGetUploadsController(getUploads)
 	uploadFileController := controllers.NewUploadFileController(uploadFile)
 	removeFileController := controllers.NewRemoveFileController(removeFile)
@@ -68,6 +70,7 @@ func main() {
 		createProjectController,
 		getProjectController,
 		createArtboardController,
+		getArtboardsController,
 	).Register()
 
 	err = app.Run(":8080")
