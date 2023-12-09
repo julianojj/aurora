@@ -43,6 +43,6 @@ func (rf *RemoveFile) Execute(fileID string) error {
 		rf.logger.Info(err.Error())
 		return err
 	}
-	rf.logger.Info("Removed file")
+	rf.logger.Info("remove.file", zap.Any("log", existingFile))
 	return nil
 }

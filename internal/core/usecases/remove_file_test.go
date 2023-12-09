@@ -14,7 +14,7 @@ func TestRemoveFile(t *testing.T) {
 	fileRepository := repository.NewFileRepositoryMemory()
 	bucket := adapters.NewFakeBucket()
 	logger, _ := zap.NewProduction()
-	uploadFile := NewUploadFile(fileRepository, bucket)
+	uploadFile := NewUploadFile(fileRepository, bucket, logger)
 	getUploads := NewGetUploads(fileRepository)
 	removeFile := NewRemoveFile(fileRepository, bucket, logger)
 	file := bytes.NewReader([]byte("test"))

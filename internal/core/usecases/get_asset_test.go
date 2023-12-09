@@ -14,7 +14,7 @@ func TestGetAssets(t *testing.T) {
 	fileRepository := repository.NewFileRepositoryMemory()
 	bucket := adapters.NewFakeBucket()
 	logger, _ := zap.NewProduction()
-	uploadFile := NewUploadFile(fileRepository, bucket)
+	uploadFile := NewUploadFile(fileRepository, bucket, logger)
 	getAsset := NewGetAsset(bucket, logger)
 	file := bytes.NewReader([]byte("test"))
 	input := UploadFileInput{

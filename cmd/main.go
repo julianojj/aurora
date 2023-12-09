@@ -4,7 +4,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
-	// _ "github.com/joho/godotenv/autoload"
 	"github.com/julianojj/aurora/internal/config"
 	"github.com/julianojj/aurora/internal/core/usecases"
 	"github.com/julianojj/aurora/internal/infra/adapters"
@@ -39,7 +38,7 @@ func main() {
 	getProject := usecases.NewGetProject(projectRepository)
 	createArtboard := usecases.NewCreateArtboard(projectRepository, artboardRepository, logger)
 	getArtboards := usecases.NewGetArtboards(artboardRepository)
-	uploadFile := usecases.NewUploadFile(fileRepository, bucket)
+	uploadFile := usecases.NewUploadFile(fileRepository, bucket, logger)
 	removeFile := usecases.NewRemoveFile(fileRepository, bucket, logger)
 	getUploads := usecases.NewGetUploads(fileRepository)
 	getAsset := usecases.NewGetAsset(bucket, logger)

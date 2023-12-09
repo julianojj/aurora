@@ -7,12 +7,14 @@ import (
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestShouldGetUploads(t *testing.T) {
 	fileRepository := repository.NewFileRepositoryMemory()
 	bucket := adapters.NewFakeBucket()
-	uploadFile := NewUploadFile(fileRepository, bucket)
+	logger, _ := zap.NewProduction()
+	uploadFile := NewUploadFile(fileRepository, bucket, logger)
 	getUploads := NewGetUploads(fileRepository)
 	file := bytes.NewReader([]byte("test"))
 	input := UploadFileInput{

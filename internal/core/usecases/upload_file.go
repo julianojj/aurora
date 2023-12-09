@@ -8,11 +8,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/julianojj/aurora/internal/core/domain"
 	"github.com/julianojj/aurora/internal/infra/adapters"
+	"go.uber.org/zap"
 )
 
 type UploadFile struct {
 	fileRepository domain.FileRepository
 	bucket         adapters.Bucket
+	logger         *zap.Logger
 }
 
 type UploadFileInput struct {
@@ -22,10 +24,15 @@ type UploadFileInput struct {
 	Reader   io.Reader `json:"reader"`
 }
 
-func NewUploadFile(fileRepository domain.FileRepository, bucket adapters.Bucket) *UploadFile {
+func NewUploadFile(
+	fileRepository domain.FileRepository,
+	bucket adapters.Bucket,
+	logger *zap.Logger,
+) *UploadFile {
 	return &UploadFile{
 		fileRepository,
 		bucket,
+		logger,
 	}
 }
 
@@ -52,5 +59,6 @@ func (u *UploadFile) Execute(input UploadFileInput) error {
 	if err != nil {
 		return err
 	}
+	u.logger.Info("upload.file", zap.Any("log", file))
 	return nil
 }
