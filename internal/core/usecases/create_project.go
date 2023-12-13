@@ -51,6 +51,6 @@ func (c *CreateProject) Execute(input CreateProjectInput) (*CreateProjectOutput,
 	output := &CreateProjectOutput{
 		ProjectID: project.ID,
 	}
-	c.Logger.Info("created.project")
+	c.Logger.Info("created.project", zap.Any("log", project))
 	return output, nil
 }
