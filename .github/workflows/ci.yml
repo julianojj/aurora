@@ -15,7 +15,8 @@ jobs:
         run: go mod tidy
       
       - name: Test
-        run: go test -v ./...
+        run: go test ./... -coverprofile=c.out -covermode=count
+        run: go tool cover -func=c.out
 
       - name: Build
         run: go build -v ./...
