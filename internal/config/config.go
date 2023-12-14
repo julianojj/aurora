@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 type Config struct {
@@ -14,12 +14,7 @@ type Config struct {
 	AWS_BUCKET_NAME   string
 }
 
-func LoadConfig(path string) *Config {
-	err := godotenv.Load(path)
-	if err != nil {
-		panic("error to load config")
-	}
-
+func LoadConfig() *Config {
 	AWS_S3_ENDPOINT := os.Getenv("AWS_S3_ENDPOINT")
 	AWS_ROOT_USER := os.Getenv("AWS_ROOT_USER")
 	AWS_ROOT_PASSWORD := os.Getenv("AWS_ROOT_PASSWORD")

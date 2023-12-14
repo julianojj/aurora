@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	config := config.LoadConfig("./.env")
+	config := config.LoadConfig()
 	app := gin.Default()
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
