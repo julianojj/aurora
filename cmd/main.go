@@ -4,7 +4,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
-	"github.com/julianojj/aurora/internal/config"
 	"github.com/julianojj/aurora/internal/core/usecases"
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/api/controllers"
@@ -15,7 +14,6 @@ import (
 )
 
 func main() {
-	config := config.LoadConfig()
 	app := gin.Default()
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
@@ -28,7 +26,7 @@ func main() {
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 
 	// Adapters
-	bucket := adapters.NewS3(config)
+	bucket := adapters.NewFakeBucket()
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
