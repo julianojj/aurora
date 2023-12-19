@@ -41,3 +41,22 @@ func TestShouldCreateArtboard(t *testing.T) {
 	assert.Len(t, artboards, 1)
 	assert.Equal(t, inputCreateArtboard.Name, artboards[0].Name)
 }
+
+func TestReturnErrorIfErrorToSaveArtboard(t *testing.T) {
+	projectRepository := repository.NewProjectRepositoryMemory()
+	artboardRepository := repository.NewArtboardRepositoryMemory()
+	logger, _ := zap.NewProduction()
+	createProject := NewCreateProject(projectRepository, logger)
+	projectRepository.MockFind()
+	createArtboard := NewCreateArtboard(projectRepository, artboardRepository, logger)
+	inputCreateProject := CreateProjectInput{
+		Name: "Untitled Project",
+	}
+	output, _ := createProject.Execute(inputCreateProject)
+	inputCreateArtboard := CreateArtboardInput{
+		ProjectID: output.ProjectID,
+		Name:      "My Artboard",
+	}
+	err := createArtboard.Execute(inputCreateArtboard)
+	assert.EqualError(t, err, "project not found")
+}
