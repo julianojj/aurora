@@ -61,4 +61,26 @@ func TestArtboard(t *testing.T) {
 		_, err := NewArtboard("1", "1", "", &Layer{})
 		assert.EqualError(t, err, exceptions.EMPTY_ARTBOARD_NAME)
 	})
+
+	t.Run("Add children", func(t *testing.T) {
+		layer, _ := NewLayer("1", artboard.ArtboardID, "test", "Text", &Properties{
+			Size: &Size{
+				Width:  100,
+				Height: 100,
+			},
+			Position: &Position{
+				X: 0,
+				Y: 0,
+			},
+			Rotation: &Rotation{
+				Angle: 0,
+			},
+			FillColor:   "#000",
+			StrokeColor: "#000",
+			StrokeWidth: 1,
+			Opacity:     100,
+		})
+		artboard.AddChildren(layer)
+		assert.Len(t, artboard.Layer.Children, 1)
+	})
 }
