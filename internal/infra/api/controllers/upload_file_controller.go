@@ -24,6 +24,7 @@ func (u *UploadFileController) Handle(c *gin.Context) {
 			"message": "Error uploading file",
 			"code":    400,
 		})
+		return
 	}
 	file, err := fileHeader.Open()
 	if err != nil {
@@ -31,6 +32,7 @@ func (u *UploadFileController) Handle(c *gin.Context) {
 			"message": "Error to open file headers",
 			"code":    400,
 		})
+		return
 	}
 	input := usecases.UploadFileInput{
 		Name:     fileHeader.Filename,
@@ -44,6 +46,7 @@ func (u *UploadFileController) Handle(c *gin.Context) {
 			"message": err.Error(),
 			"code":    500,
 		})
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "Success upload file",
