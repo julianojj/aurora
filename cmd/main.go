@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
+	"github.com/julianojj/aurora/internal/config"
 	"github.com/julianojj/aurora/internal/core/usecases"
 	"github.com/julianojj/aurora/internal/infra/adapters"
 	"github.com/julianojj/aurora/internal/infra/api/controllers"
@@ -19,6 +20,7 @@ func main() {
 	corsConfig.AllowAllOrigins = true
 	app.Use(cors.New(corsConfig))
 	logger, _ := zap.NewProduction()
+	config := config.LoadConfig()
 
 	// Repositories
 	fileRepository := repository.NewFileRepositoryMemory()
@@ -26,7 +28,7 @@ func main() {
 	artboardRepository := repository.NewArtboardRepositoryMemory()
 
 	// Adapters
-	bucket := adapters.NewFakeBucket()
+	bucket := adapters.NewS3(config)
 	err := bucket.CreateBucket()
 	if err != nil {
 		panic(err)
