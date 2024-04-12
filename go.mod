@@ -3,7 +3,7 @@ module github.com/julianojj/aurora
 go 1.19
 
 require (
-	github.com/aws/aws-sdk-go v1.51.15
+	github.com/aws/aws-sdk-go v1.51.20
 	github.com/gin-contrib/cors v1.7.1
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/uuid v1.6.0
