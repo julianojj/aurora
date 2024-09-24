@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aurora
+spec:
+  selector:
+    matchLabels:
+      app: aurora
+  template:
+    metadata:
+      labels:
+        app: aurora
+    spec:
+      containers:
+      - name: aurora
+        image: julianojj/aurora
+        ports:
+        - containerPort: 8080
