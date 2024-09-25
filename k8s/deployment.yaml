@@ -15,4 +15,4 @@ spec:
       - name: aurora
         image: julianojj/aurora
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
